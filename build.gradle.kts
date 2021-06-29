@@ -15,6 +15,8 @@ repositories {
 dependencies {
     testImplementation(kotlin("test-junit"))
 
+
+
     implementation("io.ktor:ktor-network:$ktor_version")
 
 }
@@ -25,4 +27,10 @@ tasks.test {
 
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "13"
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+        useIR = true
+    }
 }
