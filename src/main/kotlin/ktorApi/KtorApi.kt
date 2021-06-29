@@ -2,7 +2,7 @@ package ktorApi
 
 import api.Api
 
-open class KtorApi() : Api {
+sealed class KtorApi() : Api {
 
     override fun getFocusInformation(): IntArray {
         TODO("Not yet implemented")
@@ -20,7 +20,4 @@ open class KtorApi() : Api {
         TODO("Not yet implemented")
     }
 
-    override fun toString(): String {
-        return super.toString()
-    }
 }
