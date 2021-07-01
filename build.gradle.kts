@@ -6,6 +6,7 @@ plugins {
 
 group = "me.dark0ghost"
 version = "1.0-SNAPSHOT"
+
 val ktor_version = "1.4.2"
 
 repositories {
@@ -15,10 +16,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test-junit"))
 
-
-
     implementation("io.ktor:ktor-network:$ktor_version")
-
 }
 
 tasks.test {
