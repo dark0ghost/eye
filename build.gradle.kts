@@ -1,13 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.4.32"
+    kotlin("jvm") version "1.5.20"
 }
 
-group = "me.dark0ghost"
+group = "org.dark0ghost"
 version = "1.0-SNAPSHOT"
 
-val ktor_version = "1.4.2"
 
 repositories {
     mavenCentral()
@@ -16,7 +15,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test-junit"))
 
-    implementation("io.ktor:ktor-network:$ktor_version")
+    implementation("io.ktor:ktor-network:1.6.1")
 }
 
 tasks.test {
@@ -24,11 +23,5 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile>() {
-    kotlinOptions.jvmTarget = "13"
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-        useIR = true
-    }
+    kotlinOptions.jvmTarget = "15"
 }
