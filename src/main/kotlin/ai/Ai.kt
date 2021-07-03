@@ -1,4 +1,0 @@
-package ai
-
-class Ai {
-}

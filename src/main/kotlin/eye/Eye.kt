@@ -1,5 +1,0 @@
-package eye
-
-class Eye{
-
-}
