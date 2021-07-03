@@ -1,6 +1,6 @@
-package ktorApi
+package org.dark0ghost.ktorApi
 
-import api.Api
+import org.dark0ghost.api.Api
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
 import io.ktor.util.*
@@ -17,7 +17,7 @@ class KtorApi(private val socket: Socket) : Api {
         TODO("Not yet implemented")
     }
 
-    override fun setPhotoFocus(x: Int, y: Int): Boolean {
+    override fun setPhotoFocus(x: Float): Boolean {
         TODO("Not yet implemented")
     }
 
