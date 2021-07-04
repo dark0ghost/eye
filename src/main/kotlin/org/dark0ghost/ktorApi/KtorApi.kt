@@ -5,6 +5,7 @@ import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.Socket
 import io.ktor.network.sockets.TcpSocketBuilder
 import io.ktor.network.sockets.aSocket
+import org.dark0ghost.exceptions.api_ktor_exception.AddressNotSet
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors
 
@@ -64,14 +65,14 @@ class KtorApi(private val socket: Socket) : Api {
                 }
                 tcpSocketBuilders?.let {
                     clientSocket =
-                        address?.let { inetSocketAddress ->  it.connect(inetSocketAddress) } ?: it.connect(
+                        address?.let { inetSocketAddress -> it.connect(inetSocketAddress) } ?: it.connect(
                             InetSocketAddress("127.0.0.1", 2323)
                         )
                     return KtorApi(clientSocket)
                 }
 
             }
-            throw NullPointerException("address is null")
+            throw AddressNotSet("address is null")
         }
 
     }
