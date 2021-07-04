@@ -5,8 +5,7 @@ import org.junit.Test
 class TestEye {
 
     @Test
-    fun buildTest(){
+    fun buildTest() {
         //val eye = Eye.Builder()
     }
-
 }

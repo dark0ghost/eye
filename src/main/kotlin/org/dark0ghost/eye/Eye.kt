@@ -2,6 +2,7 @@ package org.dark0ghost.eye
 
 import org.dark0ghost.ai.Ai
 import org.dark0ghost.api.Api
+import org.dark0ghost.exceptions.eye_exception.ApiNotSetException
 
 class Eye(private val api: org.dark0ghost.api.Api, private val ai: Ai) {
     private fun getPhoto(): ByteArray = api.getPhoto()
@@ -28,9 +29,15 @@ class Eye(private val api: org.dark0ghost.api.Api, private val ai: Ai) {
             machine = machineInit
         }
 
-        fun build() {
+        fun build(): Eye {
+            api?.let { apis: Api ->
+                machine?.let { ai: Ai ->
+                    return Eye(apis, ai)
+                }
+                return Eye(apis, Ai())
 
+            }
+            throw ApiNotSetException("set Api for work eye")
         }
-
     }
 }
