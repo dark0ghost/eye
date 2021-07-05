@@ -53,10 +53,13 @@ class KtorApi(private var socket: Socket) : Api {
         private var selectors: ActorSelectorManager? = null,
         private var tcpSocketBuilders: TcpSocketBuilder? = null,
         private var isSetSocket: Boolean = false,
-        private var address: InetSocketAddress? = null
+        private var address: InetSocketAddress? = null,
+        private val standardPort: Int = 2323,
+        private val standardHost: String = "127.0.0.1"
     ) {
-
         private lateinit var clientSocket: Socket
+
+        private val standardInetSocketAddress = InetSocketAddress(standardHost, standardPort)
 
         fun setExecutor(exec: Executors) = apply { executors = exec }
 
@@ -81,13 +84,13 @@ class KtorApi(private var socket: Socket) : Api {
             if (address != null) {
                 selectors?.let {
                     clientSocket = address?.let { inetSocketAddress -> aSocket(it).tcp().connect(inetSocketAddress) }
-                        ?: aSocket(it).tcp().connect(InetSocketAddress("127.0.0.1", 2323))
+                        ?: aSocket(it).tcp().connect(standardInetSocketAddress)
                     return KtorApi(clientSocket)
                 }
                 tcpSocketBuilders?.let {
                     clientSocket =
                         address?.let { inetSocketAddress -> it.connect(inetSocketAddress) } ?: it.connect(
-                            InetSocketAddress("127.0.0.1", 2323)
+                            standardInetSocketAddress
                         )
                     return KtorApi(clientSocket)
                 }
