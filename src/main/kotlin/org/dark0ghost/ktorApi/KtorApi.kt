@@ -1,30 +1,51 @@
 package org.dark0ghost.ktorApi
 
-import org.dark0ghost.api.Api
 import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.Socket
-import io.ktor.network.sockets.TcpSocketBuilder
+import io.ktor.network.sockets.openReadChannel
+import io.ktor.network.sockets.openWriteChannel
 import io.ktor.network.sockets.aSocket
+import io.ktor.network.sockets.TcpSocketBuilder
+import io.ktor.utils.io.*
+import kotlinx.coroutines.Dispatchers
+import org.dark0ghost.api.Api
 import org.dark0ghost.exceptions.api_ktor_exception.AddressNotSet
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors
 
-class KtorApi(private val socket: Socket) : Api {
+class KtorApi(private var socket: Socket) : Api {
 
-    override fun getFocusInformation(): IntArray {
+    private val input: ByteReadChannel = socket.openReadChannel()
+    private val output: ByteWriteChannel = socket.openWriteChannel(autoFlush = true)
+
+
+    suspend fun constructor(address: InetSocketAddress, selectors: ActorSelectorManager) {
+        socket = aSocket(selectors).tcp().connect(address)
+    }
+
+    suspend fun constructor(address: InetSocketAddress) {
+        val selector: ActorSelectorManager = ActorSelectorManager(Dispatchers.IO)
+        socket = aSocket(selector).tcp().connect(address)
+    }
+
+    override suspend fun getFocusInformation(): IntArray {
         TODO("Not yet implemented")
     }
 
-    override fun getPhoto(): ByteArray {
-        TODO("Not yet implemented")
+    override suspend fun getPhoto(): Byte {
+        output.writeStringUtf8("send\n")
+        return input.readByte()
     }
 
-    override fun setPhotoFocus(x: Float): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun setPhotoFocus(x: Float): Boolean {
+        output.writeStringUtf8("set_focus\n${x}f\n")
+        return input.readBoolean()
+
     }
 
-    override fun setSizePhoto(x: Int, y: Int): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun setSizePhoto(x: Int, y: Int): Boolean {
+        output.writeStringUtf8("set_size_photo\n$x:$y\n")
+        return input.readBoolean()
     }
 
     data class Builder(
@@ -74,6 +95,5 @@ class KtorApi(private val socket: Socket) : Api {
             }
             throw AddressNotSet("address is null")
         }
-
     }
 }
