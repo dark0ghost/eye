@@ -2,16 +2,16 @@ package org.dark0ghost.eye
 
 import org.dark0ghost.ai.Ai
 import org.dark0ghost.api.Api
-import org.dark0ghost.exceptions.eye_exception.ApiNotSetException
+import org.dark0ghost.exceptions.eyeException.ApiNotSetException
 
 class Eye(private val api: org.dark0ghost.api.Api, private val ai: Ai) {
-    private fun getPhoto(): ByteArray = api.getPhoto()
+    private suspend fun getPhoto(): Byte = api.getPhoto()
 
-    private fun <T : Number> setSize(x: T, y: T): Boolean = api.setSizePhoto(x.toInt(), y.toInt())
+    private suspend fun <T : Number> setSize(x: T, y: T): Boolean = api.setSizePhoto(x.toInt(), y.toInt())
 
-    private fun <T : Number> setFocus(x: T): Boolean = api.setPhotoFocus(x.toFloat())
+    private suspend fun <T : Number> setFocus(x: T): Boolean = api.setPhotoFocus(x.toFloat())
 
-    private fun getFocus(): IntArray = api.getFocusInformation()
+    private suspend fun getFocus(): IntArray = api.getFocusInformation()
 
     data class Builder(private var api: Api? = null, private var machine: Ai? = null) {
 
