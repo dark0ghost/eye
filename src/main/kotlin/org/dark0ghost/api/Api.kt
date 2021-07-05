@@ -1,6 +1,7 @@
 package org.dark0ghost.api
 
 interface Api {
+
     fun getPhoto(): ByteArray
 
     fun setPhotoFocus(x: Float): Boolean

@@ -1,9 +1,11 @@
 package org.dark0ghost.ktorApi
 
 import org.dark0ghost.api.Api
-import io.ktor.network.selector.*
-import io.ktor.network.sockets.*
-import io.ktor.util.*
+import io.ktor.network.selector.ActorSelectorManager
+import io.ktor.network.sockets.Socket
+import io.ktor.network.sockets.TcpSocketBuilder
+import io.ktor.network.sockets.aSocket
+import org.dark0ghost.exceptions.api_ktor_exception.AddressNotSet
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors
 
@@ -27,8 +29,6 @@ class KtorApi(private val socket: Socket) : Api {
 
     data class Builder(
         private var executors: Executors? = null,
-
-        @OptIn(KtorExperimentalAPI::class)
         private var selectors: ActorSelectorManager? = null,
         private var tcpSocketBuilders: TcpSocketBuilder? = null,
         private var isSetSocket: Boolean = false,
@@ -39,7 +39,6 @@ class KtorApi(private val socket: Socket) : Api {
 
         fun setExecutor(exec: Executors) = apply { executors = exec }
 
-        @OptIn(KtorExperimentalAPI::class)
         fun setSelector(selector: ActorSelectorManager) = apply { selectors = selector }
 
 
@@ -54,7 +53,6 @@ class KtorApi(private val socket: Socket) : Api {
             address = adr
         }
 
-        @OptIn(KtorExperimentalAPI::class)
         suspend fun build(): KtorApi {
             if (isSetSocket) {
                 return KtorApi(clientSocket)
@@ -67,14 +65,14 @@ class KtorApi(private val socket: Socket) : Api {
                 }
                 tcpSocketBuilders?.let {
                     clientSocket =
-                        address?.let { inetSocketAddress -> return@let it.connect(inetSocketAddress) } ?: it.connect(
+                        address?.let { inetSocketAddress -> it.connect(inetSocketAddress) } ?: it.connect(
                             InetSocketAddress("127.0.0.1", 2323)
                         )
                     return KtorApi(clientSocket)
                 }
 
             }
-            throw NullPointerException("address is null")
+            throw AddressNotSet("address is null")
         }
 
     }
