@@ -9,7 +9,7 @@ import io.ktor.network.sockets.TcpSocketBuilder
 import io.ktor.utils.io.*
 import kotlinx.coroutines.Dispatchers
 import org.dark0ghost.api.Api
-import org.dark0ghost.exceptions.api_ktor_exception.AddressNotSet
+import org.dark0ghost.exceptions.apiKtorException.AddressNotSet
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors
 

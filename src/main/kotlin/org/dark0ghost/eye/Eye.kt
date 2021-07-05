@@ -2,7 +2,7 @@ package org.dark0ghost.eye
 
 import org.dark0ghost.ai.Ai
 import org.dark0ghost.api.Api
-import org.dark0ghost.exceptions.eye_exception.ApiNotSetException
+import org.dark0ghost.exceptions.eyeException.ApiNotSetException
 
 class Eye(private val api: org.dark0ghost.api.Api, private val ai: Ai) {
     private suspend fun getPhoto(): Byte = api.getPhoto()
