@@ -13,6 +13,6 @@ private const val PORT: Int = 600
 suspend fun main() {
     val selectorManager = ActorSelectorManager(Dispatchers.IO)
     val address = InetSocketAddress(host,PORT)
-    val apiKtor = KtorApi.Builder().setSelector(selectorManager).setAddress(address).build()
-    val eye: Eye = Eye.Builder().setApi(apiKtor).build()
+    //val apiKtor = KtorApi.Builder().setSelector(selectorManager).setAddress(address).build()
+    //val eye: Eye = Eye.Builder().setApi(apiKtor).build()
 }
