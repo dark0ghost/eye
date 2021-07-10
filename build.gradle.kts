@@ -13,6 +13,8 @@ repositories {
 }
 
 dependencies {
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
     testImplementation(kotlin("test-junit"))
 
     implementation("io.ktor:ktor-network:1.6.1")
