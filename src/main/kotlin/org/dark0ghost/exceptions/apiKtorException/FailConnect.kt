@@ -1,3 +1,3 @@
 package org.dark0ghost.exceptions.apiKtorException
 
-open class AddressNotSet(s: String) : Exception()
+open class FailConnect(s: String) : Exception()

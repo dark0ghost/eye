@@ -12,6 +12,7 @@ import io.ktor.utils.io.writeStringUtf8
 import kotlinx.coroutines.Dispatchers
 import org.dark0ghost.api.Api
 import org.dark0ghost.exceptions.apiKtorException.AddressNotSet
+import org.dark0ghost.exceptions.apiKtorException.FailConnect
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors
 
@@ -85,9 +86,14 @@ class KtorApi(private var socket: Socket) : Api {
             }
             if (address != null) {
                 selectors?.let {
-                    clientSocket = address?.let { inetSocketAddress -> aSocket(it).tcp().connect(inetSocketAddress) }
-                        ?: aSocket(it).tcp().connect(standardInetSocketAddress)
-                    return KtorApi(clientSocket)
+                    try {
+                        clientSocket =
+                            address?.let { inetSocketAddress -> aSocket(it).tcp().connect(inetSocketAddress) }
+                                ?: throw FailConnect("server:$address no response")
+                        return KtorApi(clientSocket)
+                    } catch (e: Exception) {
+                        throw FailConnect("server:$address no response")
+                    }
                 }
                 tcpSocketBuilders?.let {
                     clientSocket =
