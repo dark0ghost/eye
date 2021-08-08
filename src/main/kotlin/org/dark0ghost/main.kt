@@ -1,6 +1,6 @@
 package org.dark0ghost
 
-import io.ktor.network.selector.*
+import io.ktor.network.selector.ActorSelectorManager
 import kotlinx.coroutines.Dispatchers
 import org.dark0ghost.ktorApi.KtorApi
 import java.net.InetSocketAddress

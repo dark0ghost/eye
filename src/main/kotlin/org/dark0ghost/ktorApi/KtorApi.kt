@@ -21,7 +21,6 @@ class KtorApi(private var socket: Socket) : Api {
     private val input: ByteReadChannel = socket.openReadChannel()
     private val output: ByteWriteChannel = socket.openWriteChannel(autoFlush = true)
 
-
     suspend fun constructor(address: InetSocketAddress, selectors: ActorSelectorManager) {
         socket = aSocket(selectors).tcp().connect(address)
     }
@@ -43,7 +42,6 @@ class KtorApi(private var socket: Socket) : Api {
     override suspend fun setPhotoFocus(x: Float): Boolean {
         output.writeStringUtf8("set_focus\n${x}f\n")
         return input.readBoolean()
-
     }
 
     override suspend fun setSizePhoto(x: Int, y: Int): Boolean {
@@ -67,7 +65,6 @@ class KtorApi(private var socket: Socket) : Api {
         fun setExecutor(exec: Executors) = apply { executors = exec }
 
         fun setSelector(selector: ActorSelectorManager) = apply { selectors = selector }
-
 
         fun setTcpBuilder(tcpSocketBuilder: TcpSocketBuilder) = apply { tcpSocketBuilders = tcpSocketBuilder }
 
