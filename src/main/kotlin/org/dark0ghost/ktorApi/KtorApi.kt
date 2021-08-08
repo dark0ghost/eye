@@ -86,9 +86,9 @@ class KtorApi(private var socket: Socket) : Api {
                     try {
                         clientSocket =
                             address?.let { inetSocketAddress -> aSocket(it).tcp().connect(inetSocketAddress) }
-                                ?: throw FailConnect("server:$address no response")
+                                ?: aSocket(it).tcp().connect(standardInetSocketAddress)
                         return KtorApi(clientSocket)
-                    } catch (e: Exception) {
+                    } catch (e: java.net.ConnectException) {
                         throw FailConnect("server:$address no response")
                     }
                 }
