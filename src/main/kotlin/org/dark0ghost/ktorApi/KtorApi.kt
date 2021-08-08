@@ -77,7 +77,7 @@ class KtorApi(private var socket: Socket) : Api {
             address = adr
         }
 
-        suspend  fun build(): KtorApi {
+        suspend fun build(): KtorApi {
             if (isSetSocket) {
                 return KtorApi(clientSocket)
             }
