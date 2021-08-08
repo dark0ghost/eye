@@ -6,6 +6,6 @@ class TestApi {
 
     @Test
     fun makeSendTarget() {
-        TODO("implement")
+        TODO("implement send target")
     }
 }
