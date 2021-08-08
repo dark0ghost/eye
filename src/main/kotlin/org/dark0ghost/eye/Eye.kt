@@ -35,7 +35,6 @@ class Eye(private val api: org.dark0ghost.api.Api, private val ai: Ai) {
                     return Eye(apis, ai)
                 }
                 return Eye(apis, Ai())
-
             }
             throw ApiNotSetException("set Api for work eye")
         }

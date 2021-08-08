@@ -5,8 +5,7 @@ import org.junit.Test
 class TestApi {
 
     @Test
-    fun makeSendTarget(){
-
+    fun makeSendTarget() {
+        // TODO("implement send target")
     }
-
 }

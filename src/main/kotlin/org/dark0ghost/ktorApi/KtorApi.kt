@@ -12,6 +12,7 @@ import io.ktor.utils.io.writeStringUtf8
 import kotlinx.coroutines.Dispatchers
 import org.dark0ghost.api.Api
 import org.dark0ghost.exceptions.apiKtorException.AddressNotSet
+import org.dark0ghost.exceptions.apiKtorException.FailConnect
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors
 
@@ -19,7 +20,6 @@ class KtorApi(private var socket: Socket) : Api {
 
     private val input: ByteReadChannel = socket.openReadChannel()
     private val output: ByteWriteChannel = socket.openWriteChannel(autoFlush = true)
-
 
     suspend fun constructor(address: InetSocketAddress, selectors: ActorSelectorManager) {
         socket = aSocket(selectors).tcp().connect(address)
@@ -42,7 +42,6 @@ class KtorApi(private var socket: Socket) : Api {
     override suspend fun setPhotoFocus(x: Float): Boolean {
         output.writeStringUtf8("set_focus\n${x}f\n")
         return input.readBoolean()
-
     }
 
     override suspend fun setSizePhoto(x: Int, y: Int): Boolean {
@@ -67,7 +66,6 @@ class KtorApi(private var socket: Socket) : Api {
 
         fun setSelector(selector: ActorSelectorManager) = apply { selectors = selector }
 
-
         fun setTcpBuilder(tcpSocketBuilder: TcpSocketBuilder) = apply { tcpSocketBuilders = tcpSocketBuilder }
 
         fun setClientSocket(socket: Socket) = apply {
@@ -85,9 +83,14 @@ class KtorApi(private var socket: Socket) : Api {
             }
             if (address != null) {
                 selectors?.let {
-                    clientSocket = address?.let { inetSocketAddress -> aSocket(it).tcp().connect(inetSocketAddress) }
-                        ?: aSocket(it).tcp().connect(standardInetSocketAddress)
-                    return KtorApi(clientSocket)
+                    try {
+                        clientSocket =
+                            address?.let { inetSocketAddress -> aSocket(it).tcp().connect(inetSocketAddress) }
+                                ?: aSocket(it).tcp().connect(standardInetSocketAddress)
+                        return KtorApi(clientSocket)
+                    } catch (e: java.net.ConnectException) {
+                        throw FailConnect("server:$address no response")
+                    }
                 }
                 tcpSocketBuilders?.let {
                     clientSocket =
@@ -96,7 +99,6 @@ class KtorApi(private var socket: Socket) : Api {
                         )
                     return KtorApi(clientSocket)
                 }
-
             }
             throw AddressNotSet("address is null")
         }
