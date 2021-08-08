@@ -6,6 +6,6 @@ class TestEye {
 
     @Test
     fun buildTest() {
-        //val eye = Eye.Builder()
+        TODO("make build")
     }
 }

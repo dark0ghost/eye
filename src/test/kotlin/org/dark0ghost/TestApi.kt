@@ -1,3 +1,11 @@
 package org.dark0ghost
 
-class TestApi
+import org.junit.Test
+
+class TestApi{
+
+    @Test
+    fun makeSendTarget() {
+        TODO("implement send target")
+    }
+}
