@@ -99,7 +99,6 @@ class KtorApi(private var socket: Socket) : Api {
                         )
                     return KtorApi(clientSocket)
                 }
-
             }
             throw AddressNotSet("address is null")
         }

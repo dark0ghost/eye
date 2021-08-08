@@ -10,8 +10,7 @@ private const val PORT: Int = 6000
 
 suspend fun main() {
     val selectorManager = ActorSelectorManager(Dispatchers.IO)
-    val address = InetSocketAddress(host,PORT)
-    println(address)
+    val address = InetSocketAddress(host, PORT)
     val apiKtor = KtorApi.Builder().setSelector(selectorManager).setAddress(address).build()
-   // val eye: Eye = Eye.Builder().setApi(apiKtor).build()
 }
+// val eye: Eye = Eye.Builder().setApi(apiKtor).build()
