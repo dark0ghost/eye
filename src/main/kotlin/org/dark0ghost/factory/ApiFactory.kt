@@ -1,6 +1,5 @@
 package org.dark0ghost.factory
 
-import io.ktor.network.sockets.Socket
 import kotlinx.coroutines.runBlocking
 import org.dark0ghost.api.Api
 import org.dark0ghost.enums.NetApi
@@ -8,7 +7,6 @@ import org.dark0ghost.exceptions.factoryException.NotFoundApiException
 import org.dark0ghost.ktorApi.KtorApi
 
 abstract class ApiFactory {
-
 
     abstract fun createApi(): Api
 
