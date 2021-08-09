@@ -6,9 +6,9 @@ import org.dark0ghost.enums.NetApi
 import org.dark0ghost.exceptions.factoryException.NotFoundApiException
 import org.dark0ghost.ktorApi.KtorApi
 
-abstract class ApiFactory {
+interface ApiFactory {
 
-    abstract fun createApi(): Api
+    fun createApi(): Api
 
     companion object {
         fun getApi(apiType: NetApi): ApiFactory = when (apiType) {
@@ -18,7 +18,7 @@ abstract class ApiFactory {
     }
 }
 
-open class KtorApiFactory : ApiFactory() {
+open class KtorApiFactory : ApiFactory {
     private lateinit var builder: KtorApi.Builder
 
     open fun setBuilder(ktorBuilder: KtorApi.Builder): ApiFactory = apply {
