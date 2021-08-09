@@ -1,12 +1,16 @@
 package org.dark0ghost.factory
 
+import io.ktor.network.sockets.Socket
+import kotlinx.coroutines.runBlocking
 import org.dark0ghost.api.Api
 import org.dark0ghost.enums.NetApi
 import org.dark0ghost.exceptions.factoryException.NotFoundApiException
 import org.dark0ghost.ktorApi.KtorApi
 
 abstract class ApiFactory {
- abstract fun createApi(): Api
+
+
+    abstract fun createApi(): Api
 
  companion object {
      fun getApi(apiType: NetApi): ApiFactory = when(apiType){
@@ -16,7 +20,13 @@ abstract class ApiFactory {
  }
 }
 
-internal class KtorApiFactory: ApiFactory() {
-    override fun createApi(): Api = KtorApi()
+open class KtorApiFactory: ApiFactory() {
+    private lateinit var builder: KtorApi.Builder
+
+    open fun setBuilder(ktorBuilder: KtorApi.Builder): ApiFactory = apply {
+        builder = ktorBuilder
+    }
+
+    override fun createApi() = runBlocking { builder.build() }
 
 }
