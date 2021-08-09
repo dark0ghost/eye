@@ -15,7 +15,7 @@ import org.dark0ghost.exceptions.apiKtorException.FailConnect
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors
 
-open class KtorApi(private val socket: Socket): Api {
+open class KtorApi(socket: Socket) : Api {
 
     private val input: ByteReadChannel = socket.openReadChannel()
     private val output: ByteWriteChannel = socket.openWriteChannel(autoFlush = true)

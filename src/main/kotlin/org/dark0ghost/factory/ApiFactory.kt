@@ -18,7 +18,7 @@ abstract class ApiFactory {
     }
 }
 
-open class KtorApiFactory: ApiFactory() {
+open class KtorApiFactory : ApiFactory() {
     private lateinit var builder: KtorApi.Builder
 
     open fun setBuilder(ktorBuilder: KtorApi.Builder): ApiFactory = apply {
@@ -26,5 +26,4 @@ open class KtorApiFactory: ApiFactory() {
     }
 
     override fun createApi() = runBlocking { builder.build() }
-
 }
