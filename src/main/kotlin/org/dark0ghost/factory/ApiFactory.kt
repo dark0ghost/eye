@@ -10,12 +10,12 @@ abstract class ApiFactory {
 
     abstract fun createApi(): Api
 
- companion object {
-     fun getApi(apiType: NetApi): ApiFactory = when(apiType){
-         NetApi.KtorApi -> KtorApiFactory()
-         else -> throw NotFoundApiException("api($apiType) not found")
-     }
- }
+    companion object {
+        fun getApi(apiType: NetApi): ApiFactory = when (apiType) {
+            NetApi.KtorApi -> KtorApiFactory()
+            else -> throw NotFoundApiException("api($apiType) not found")
+        }
+    }
 }
 
 open class KtorApiFactory: ApiFactory() {
