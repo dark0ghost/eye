@@ -2,33 +2,23 @@ package org.dark0ghost.ktorApi
 
 import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.Socket
+import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
 import io.ktor.network.sockets.openWriteChannel
-import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.TcpSocketBuilder
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.ByteWriteChannel
 import io.ktor.utils.io.writeStringUtf8
-import kotlinx.coroutines.Dispatchers
 import org.dark0ghost.api.Api
 import org.dark0ghost.exceptions.apiKtorException.AddressNotSet
 import org.dark0ghost.exceptions.apiKtorException.FailConnect
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors
 
-class KtorApi(private var socket: Socket) : Api {
+open class KtorApi(socket: Socket) : Api {
 
     private val input: ByteReadChannel = socket.openReadChannel()
     private val output: ByteWriteChannel = socket.openWriteChannel(autoFlush = true)
-
-    suspend fun constructor(address: InetSocketAddress, selectors: ActorSelectorManager) {
-        socket = aSocket(selectors).tcp().connect(address)
-    }
-
-    suspend fun constructor(address: InetSocketAddress) {
-        val selector: ActorSelectorManager = ActorSelectorManager(Dispatchers.IO)
-        socket = aSocket(selector).tcp().connect(address)
-    }
 
     override suspend fun getFocusInformation(): IntArray {
         TODO("Not yet implemented")
@@ -58,6 +48,7 @@ class KtorApi(private var socket: Socket) : Api {
         private val standardPort: Int = 2323,
         private val standardHost: String = "127.0.0.1"
     ) {
+
         private lateinit var clientSocket: Socket
 
         private val standardInetSocketAddress = InetSocketAddress(standardHost, standardPort)
@@ -85,8 +76,8 @@ class KtorApi(private var socket: Socket) : Api {
                 selectors?.let {
                     try {
                         clientSocket =
-                            address?.let { inetSocketAddress -> aSocket(it).tcp().connect(inetSocketAddress) }
-                                ?: aSocket(it).tcp().connect(standardInetSocketAddress)
+                            address?.let { inetSocketAddress -> getSocket(it, inetSocketAddress) }
+                                ?: getSocket(it, standardInetSocketAddress)
                         return KtorApi(clientSocket)
                     } catch (e: java.net.ConnectException) {
                         throw FailConnect("server:$address no response")
@@ -102,5 +93,10 @@ class KtorApi(private var socket: Socket) : Api {
             }
             throw AddressNotSet("address is null")
         }
+    }
+
+    private companion object {
+        private suspend inline fun getSocket(selectors: ActorSelectorManager, address: InetSocketAddress) =
+            aSocket(selectors).tcp().connect(address)
     }
 }

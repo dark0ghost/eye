@@ -2,6 +2,9 @@ package org.dark0ghost
 
 import io.ktor.network.selector.ActorSelectorManager
 import kotlinx.coroutines.Dispatchers
+import org.dark0ghost.enums.NetApi
+import org.dark0ghost.factory.ApiFactory
+import org.dark0ghost.factory.KtorApiFactory
 import org.dark0ghost.ktorApi.KtorApi
 import java.net.InetSocketAddress
 
@@ -11,6 +14,9 @@ private const val PORT: Int = 6000
 suspend fun main() {
     val selectorManager = ActorSelectorManager(Dispatchers.IO)
     val address = InetSocketAddress(HOST_ADDRESS, PORT)
-    val apiKtor = KtorApi.Builder().setSelector(selectorManager).setAddress(address).build()
+    val apiKtorBuilder: KtorApi.Builder = KtorApi.Builder().setSelector(selectorManager).setAddress(address)
+    val apiFactory = (ApiFactory.getApi(NetApi.KtorApi) as KtorApiFactory).setBuilder(apiKtorBuilder)
+    // val ktorApi: KtorApi = apiFactory.createApi() as KtorApi
+    // ktorApi.getPhoto()
+    // val eye: Eye = Eye.Builder().setApi(apiKtor).build()
 }
-// val eye: Eye = Eye.Builder().setApi(apiKtor).build()
