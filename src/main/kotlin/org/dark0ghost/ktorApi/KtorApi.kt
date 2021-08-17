@@ -10,6 +10,7 @@ import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.ByteWriteChannel
 import io.ktor.utils.io.writeStringUtf8
 import org.dark0ghost.api.Api
+import org.dark0ghost.enums.ApiCommand
 import org.dark0ghost.exceptions.apiKtorException.AddressNotSet
 import org.dark0ghost.exceptions.apiKtorException.FailConnect
 import java.net.InetSocketAddress
@@ -25,17 +26,17 @@ open class KtorApi(socket: Socket) : Api {
     }
 
     override suspend fun getPhoto(): Byte {
-        output.writeStringUtf8("send\n")
+        output.writeStringUtf8(ApiCommand.Send.name)
         return input.readByte()
     }
 
     override suspend fun setPhotoFocus(x: Float): Boolean {
-        output.writeStringUtf8("set_focus\n${x}f\n")
+        output.writeStringUtf8("${ApiCommand.SetFocus.name}${x}f\n")
         return input.readBoolean()
     }
 
     override suspend fun setSizePhoto(x: Int, y: Int): Boolean {
-        output.writeStringUtf8("set_size_photo\n$x:$y\n")
+        output.writeStringUtf8("${ApiCommand.SetSizePhoto.name}$x:$y\n")
         return input.readBoolean()
     }
 
