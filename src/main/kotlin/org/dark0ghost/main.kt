@@ -1,7 +1,6 @@
 package org.dark0ghost
 
 import io.ktor.network.selector.ActorSelectorManager
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
 import org.dark0ghost.enums.NetApi
 import org.dark0ghost.factory.ApiFactory

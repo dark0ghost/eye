@@ -25,7 +25,7 @@ open class KtorApi(socket: Socket) : Api {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getPhoto(): Byte  {
+    override suspend fun getPhoto(): Byte {
         output.writeStringUtf8(ApiCommand.Send.s)
         return input.readByte()
     }
