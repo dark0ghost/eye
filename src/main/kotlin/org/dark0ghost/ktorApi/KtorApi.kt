@@ -6,9 +6,7 @@ import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
 import io.ktor.network.sockets.openWriteChannel
 import io.ktor.network.sockets.TcpSocketBuilder
-import io.ktor.utils.io.ByteReadChannel
-import io.ktor.utils.io.ByteWriteChannel
-import io.ktor.utils.io.writeStringUtf8
+import io.ktor.utils.io.*
 import org.dark0ghost.api.Api
 import org.dark0ghost.enums.ApiCommand
 import org.dark0ghost.exceptions.apiKtorException.AddressNotSet
@@ -25,8 +23,8 @@ open class KtorApi(socket: Socket) : Api {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getPhoto(): Byte {
-        output.writeStringUtf8(ApiCommand.Send.name)
+    override suspend fun getPhoto(): Byte  {
+        output.writeStringUtf8(ApiCommand.Send.s)
         return input.readByte()
     }
 
