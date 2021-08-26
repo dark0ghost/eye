@@ -9,8 +9,8 @@ import org.dark0ghost.ktorApi.KtorApi
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors
 
-private const val HOST_ADDRESS: String = "127.0.0.1"
-private const val PORT: Int = 4297
+private const val HOST_ADDRESS: String = "192.168.0.197"
+private const val PORT: Int = 4290
 
 suspend fun main() {
     val exec = Executors.newCachedThreadPool()
