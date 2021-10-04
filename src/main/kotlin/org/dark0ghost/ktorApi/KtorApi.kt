@@ -32,7 +32,7 @@ open class KtorApi(socket: Socket) : Api {
         output.writeStringUtf8(ApiCommand.Send.s)
         val file = mutableListOf<Byte>()
         val sizeFile = input.readInt()
-        input.read(sizeFile){
+        input.read(sizeFile) {
             file extentd it.moveToByteArray()
         }
         return file.toByteArray()
