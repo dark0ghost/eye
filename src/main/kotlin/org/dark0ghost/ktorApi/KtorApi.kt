@@ -6,8 +6,11 @@ import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
 import io.ktor.network.sockets.openWriteChannel
 import io.ktor.network.sockets.TcpSocketBuilder
-import io.ktor.util.*
-import io.ktor.utils.io.*
+import io.ktor.util.InternalAPI
+import io.ktor.util.moveToByteArray
+import io.ktor.utils.io.ByteWriteChannel
+import io.ktor.utils.io.ByteReadChannel
+import io.ktor.utils.io.writeStringUtf8
 import org.dark0ghost.api.Api
 import org.dark0ghost.enums.ApiCommand
 import org.dark0ghost.exceptions.apiKtorException.AddressNotSet

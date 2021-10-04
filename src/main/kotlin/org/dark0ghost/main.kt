@@ -1,6 +1,6 @@
 package org.dark0ghost
 
-import io.ktor.network.selector.*
+import io.ktor.network.selector.ActorSelectorManager
 import kotlinx.coroutines.asCoroutineDispatcher
 import org.dark0ghost.enums.NetApi
 import org.dark0ghost.exceptions.apiKtorException.FailConnect
@@ -8,9 +8,7 @@ import org.dark0ghost.eye.Eye
 import org.dark0ghost.factory.ApiFactory
 import org.dark0ghost.factory.KtorApiFactory
 import org.dark0ghost.ktorApi.KtorApi
-import java.io.*
 import java.net.InetSocketAddress
-import java.net.Socket
 import java.util.concurrent.Executors
 
 
@@ -25,9 +23,9 @@ fun main() {
     val apiFactory = (ApiFactory.getApi(NetApi.KtorApi) as KtorApiFactory).setBuilder(apiKtorBuilder)
     val ktorApi: KtorApi = try {
         apiFactory.createApi() as KtorApi
-    }catch (e: FailConnect){
+    } catch (e: FailConnect) {
         e.printStackTrace()
         return
     }
-    //Eye.Builder().setApi(ktorApi).build()
+    Eye.Builder().setApi(ktorApi).build()
 }
