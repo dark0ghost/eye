@@ -1,7 +1,5 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    kotlin("jvm") version "1.5.30"
+    kotlin("jvm") version "1.5.31"
 }
 
 group = "org.dark0ghost"
@@ -17,7 +15,7 @@ dependencies {
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.5.30")
 
-    implementation("io.ktor:ktor-network:1.6.2")
+    implementation("io.ktor:ktor-network:1.6.3")
 
     implementation ("org.bytedeco:javacv:1.5.5")
     implementation ("org.bytedeco.javacpp-presets:opencv:4.0.1-1.4.4")
@@ -27,6 +25,4 @@ tasks.test {
     useJUnit()
 }
 
-tasks.withType<KotlinCompile>() {
-    kotlinOptions.jvmTarget = "15"
-}
+

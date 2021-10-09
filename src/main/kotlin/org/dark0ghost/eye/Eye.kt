@@ -5,7 +5,7 @@ import org.dark0ghost.api.Api
 import org.dark0ghost.exceptions.eyeException.ApiNotSetException
 
 class Eye(private val api: org.dark0ghost.api.Api, private val ai: Ai) {
-    private suspend fun getPhoto(): Byte = api.getPhoto()
+    private suspend fun getPhoto() = api.getPhoto()
 
     private suspend fun <T : Number> setSize(x: T, y: T): Boolean = api.setSizePhoto(x.toInt(), y.toInt())
 

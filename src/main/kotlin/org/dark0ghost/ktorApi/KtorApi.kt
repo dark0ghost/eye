@@ -6,8 +6,10 @@ import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
 import io.ktor.network.sockets.openWriteChannel
 import io.ktor.network.sockets.TcpSocketBuilder
-import io.ktor.utils.io.ByteReadChannel
+import io.ktor.util.InternalAPI
+import io.ktor.util.moveToByteArray
 import io.ktor.utils.io.ByteWriteChannel
+import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.writeStringUtf8
 import org.dark0ghost.api.Api
 import org.dark0ghost.enums.ApiCommand
@@ -25,9 +27,15 @@ open class KtorApi(socket: Socket) : Api {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getPhoto(): Byte {
+    @OptIn(InternalAPI::class)
+    override suspend fun getPhoto(): ByteArray {
         output.writeStringUtf8(ApiCommand.Send.s)
-        return input.readByte()
+        val file = mutableListOf<Byte>()
+        val sizeFile = input.readInt()
+        input.read(sizeFile) {
+            file extentd it.moveToByteArray()
+        }
+        return file.toByteArray()
     }
 
     override suspend fun setPhotoFocus(x: Float): Boolean {
@@ -99,5 +107,11 @@ open class KtorApi(socket: Socket) : Api {
     private companion object {
         private suspend inline fun getSocket(selectors: ActorSelectorManager, address: InetSocketAddress) =
             aSocket(selectors).tcp().connect(address)
+
+        private infix fun MutableList<Byte>.extentd(array: ByteArray) {
+            array.forEach {
+                add(it)
+            }
+        }
     }
 }
