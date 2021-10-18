@@ -33,7 +33,7 @@ open class KtorApi(socket: Socket) : Api {
         val file = mutableListOf<Byte>()
         val sizeFile = input.readInt()
         input.read(sizeFile) {
-            file extentd it.moveToByteArray()
+            file extend it.moveToByteArray()
         }
         return file.toByteArray()
     }
@@ -108,7 +108,7 @@ open class KtorApi(socket: Socket) : Api {
         private suspend inline fun getSocket(selectors: ActorSelectorManager, address: InetSocketAddress) =
             aSocket(selectors).tcp().connect(address)
 
-        private infix fun MutableList<Byte>.extentd(array: ByteArray) {
+        private infix fun MutableList<Byte>.extend(array: ByteArray) {
             array.forEach {
                 add(it)
             }
